@@ -14,11 +14,18 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            applicationManager.Navigator.GoToAddNewPage();
             ContactData contact = new ContactData("Arthur", "Kolychev");
-            applicationManager.Contacts.FillContactForm(contact);
-            applicationManager.Contacts.SubmitContactCreation();
+
+            applicationManager.Contacts.Create(contact);
         }
-        
+
+        [Test]
+        public void EmptyContactCreationTest()
+        {
+            ContactData contact = new ContactData("", "");
+
+            applicationManager.Contacts.Create(contact);
+        }
+
     }
 }
