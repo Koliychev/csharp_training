@@ -31,7 +31,7 @@ namespace WebAddressbookTests
             applicationManager.Auth.Logout();
 
             // action
-            AccountData account = new AccountData("admin", "123");
+            AccountData account = new AccountData("admin", "123456");
             applicationManager.Auth.Login(account);
 
             // verification
