@@ -29,30 +29,46 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int v, ContactData newData)
         {
-            SelectContact(v);
-            InitContactModification();
-            FillContactForm(newData);
-            SubmitContactModification();
             manager.Navigator.GoToHomePage();
-            return this;
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                SelectContact(v);
+                InitContactModification();
+                FillContactForm(newData);
+                SubmitContactModification();
+                manager.Navigator.GoToHomePage();
+                return this;
+            }
+            else
+            {
+                Create(new ContactData("Alex", "Petrov"));
+                return Modify(v, newData);
+            }
+                
         }
 
         public ContactHelper Remove(int v)
         {
-            SelectContact(v);
-            RemoveContact();
             manager.Navigator.GoToHomePage();
-            return this;
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                SelectContact(v);
+                RemoveContact();
+                manager.Navigator.GoToHomePage();
+                return this;
+            }
+            else
+            {
+                Create(new ContactData("Alex", "Petrov"));
+                return Remove(v);
+            }
+                
         }
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("lastname"), contact.Lastname);
             return this;
         }
 
