@@ -18,7 +18,7 @@ namespace WebAddressbookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
-        
+
         public ContactHelper Create(ContactData contact)
         {
             manager.Navigator.GoToAddNewPage();
@@ -30,39 +30,21 @@ namespace WebAddressbookTests
         public ContactHelper Modify(int v, ContactData newData)
         {
             manager.Navigator.GoToHomePage();
-            if (IsElementPresent(By.Name("selected[]")))
-            {
-                SelectContact(v);
-                InitContactModification();
-                FillContactForm(newData);
-                SubmitContactModification();
-                manager.Navigator.GoToHomePage();
-                return this;
-            }
-            else
-            {
-                Create(new ContactData("Alex", "Petrov"));
-                return Modify(v, newData);
-            }
-                
+            SelectContact(v);
+            InitContactModification();
+            FillContactForm(newData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
         }
 
         public ContactHelper Remove(int v)
         {
             manager.Navigator.GoToHomePage();
-            if (IsElementPresent(By.Name("selected[]")))
-            {
-                SelectContact(v);
-                RemoveContact();
-                manager.Navigator.GoToHomePage();
-                return this;
-            }
-            else
-            {
-                Create(new ContactData("Alex", "Petrov"));
-                return Remove(v);
-            }
-                
+            SelectContact(v);
+            RemoveContact();
+            manager.Navigator.GoToHomePage();
+            return this;
         }
 
         public ContactHelper FillContactForm(ContactData contact)
@@ -120,7 +102,7 @@ namespace WebAddressbookTests
                 }
                 return alertText;
             }
-            
+
             finally
             {
                 acceptNextAlert = true;

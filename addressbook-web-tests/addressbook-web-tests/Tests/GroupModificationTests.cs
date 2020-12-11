@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace WebAddressbookTests
 {
@@ -17,7 +18,12 @@ namespace WebAddressbookTests
             newData.Header = null;
             newData.Footer = null;
 
-            applicationManager.Groups.Modify(1, newData);
+            if (!applicationManager.Groups.IsElementPresent(By.Name("selected[]")))
+            {
+                applicationManager.Groups.Create(new GroupData("Test"));
+            }
+
+                applicationManager.Groups.Modify(1, newData);
         }
     }
 }
