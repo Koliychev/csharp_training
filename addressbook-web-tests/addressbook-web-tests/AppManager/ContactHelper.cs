@@ -27,6 +27,19 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@class]"));
+            foreach (IWebElement element in elements)
+            {
+                List<IWebElement> cells = element.FindElements(By.TagName("td")).ToList();                
+                contacts.Add(new ContactData(cells[2].Text, cells[1].Text));
+            }
+            return contacts;
+        }
+
         public ContactHelper Modify(int v, ContactData newData)
         {
             manager.Navigator.GoToHomePage();

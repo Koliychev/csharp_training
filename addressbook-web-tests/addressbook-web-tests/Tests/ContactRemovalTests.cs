@@ -18,7 +18,15 @@ namespace WebAddressbookTests
             {
                 applicationManager.Contacts.Create(new ContactData("Test", "Test"));
             }
-            applicationManager.Contacts.Remove(1);
+
+            List<ContactData> oldContacts = applicationManager.Contacts.GetContactList();
+
+            applicationManager.Contacts.Remove(0);
+
+            List<ContactData> newContacts = applicationManager.Contacts.GetContactList();
+
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
         }
     }
 }
