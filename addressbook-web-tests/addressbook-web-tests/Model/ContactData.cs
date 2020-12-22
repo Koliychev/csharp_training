@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
+        private string allInfo;
+        private string allEMails;
 
         public ContactData(string firstname, string lastname)
         {
@@ -36,7 +39,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "firstname and lastname=" + (Firstname + Lastname);
+            return (Firstname + Lastname);
         }
 
         public int CompareTo(ContactData other)
@@ -87,8 +90,8 @@ namespace WebAddressbookTests
             get 
             {
                 if (allPhones != null)
-                {
-                    return allPhones;
+                {                    
+                    return Regex.Replace(allPhones, "\r\n", "");
                 }
                 else
                 {
@@ -101,13 +104,52 @@ namespace WebAddressbookTests
             }
         }
 
-        private string CleanUp(string phone)
+        public string AllEMails
         {
-            if (phone == null || phone == "")
+            get
+            {
+                if (allEMails != null)
+                {
+                    return Regex.Replace(allEMails, "\r\n", "");
+                }
+                else
+                {
+                    return (CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEMails = value;
+            }
+        }
+
+        public string AllInfo
+        {
+            get
+            {
+                if (allInfo != null)
+                {
+                    return Regex.Replace(allInfo, "\r\n", "");
+                }
+                else
+                {
+                    return (Firstname + Lastname + AllPhones + AllEMails).Trim();
+                }
+            }
+            set
+            {
+                allInfo = value;
+            }
+        }
+
+        private string CleanUp(string data)
+        {
+            if (data == null || data == "")
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return Regex.Replace(data, "[ -()]", "");
         }
+
     }
 }
