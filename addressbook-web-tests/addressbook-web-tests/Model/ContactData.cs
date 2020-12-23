@@ -10,8 +10,8 @@ namespace WebAddressbookTests
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
-        private string allInfo;
         private string allEMails;
+        private string allInfo;
 
         public ContactData(string firstname, string lastname)
         {
@@ -39,18 +39,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            var firstname = Firstname + " ";
-            var lastname = Lastname;
-
-            var homePhone = CombineIfNotEmpty("\r\n\r\nH: ", Home);
-            var mobilePhone = CombineIfNotEmpty("\r\n\r\nM: ", Mobile);
-            var workPhone = CombineIfNotEmpty("\r\n\r\nW: ", Work);
-
-            var email = "\r\n\r\n" + Email;
-            var email2 = "\r\n" + Email2;
-            var email3 = "\r\n" + Email3;
-
-            return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3).Trim();
+            return "firstname= " + Firstname + "\nlastname = " + Lastname;
         }
 
         public int CompareTo(ContactData other)
@@ -134,26 +123,36 @@ namespace WebAddressbookTests
             }
         }
 
-        // -- experimental property --
-        //public string AllInfo
-        //{
-        //    get
-        //    {
-        //        var firstname = Firstname + " ";
-        //        var lastname = Lastname;
+        public string AllInfo
+        { 
+            get
+            {
+                if (allInfo != null)
+                {
+                    return AllInfo;
+                }
+                else
+                {
+                    var firstname = Firstname + " ";
+                    var lastname = Lastname;
 
-        //        var homePhone = CombineIfNotEmpty("\r\n\r\nH: ", Home);
-        //        var mobilePhone = CombineIfNotEmpty("\r\n\r\nM: ", Mobile);
-        //        var workPhone = CombineIfNotEmpty("\r\n\r\nW: ", Work);
-                
-        //        var email = "\r\n\r\n" + Email;
-        //        var email2 = "\r\n" + Email2;
-        //        var email3 = "\r\n" + Email3;
+                    var homePhone = CombineIfNotEmpty("\r\n\r\nH: ", Home);
+                    var mobilePhone = CombineIfNotEmpty("\r\n\r\nM: ", Mobile);
+                    var workPhone = CombineIfNotEmpty("\r\n\r\nW: ", Work);
 
-        //        return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3).Trim();
-        //    }
-        //}
+                    var email = "\r\n\r\n" + Email;
+                    var email2 = "\r\n" + Email2;
+                    var email3 = "\r\n" + Email3;
 
+                    return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3).Trim();
+                }                
+            }
+            set
+            {
+                allInfo = value;
+            }
+        }
+        
         private string CleanUp(string data)
         {
             if (data == null || data == "")
