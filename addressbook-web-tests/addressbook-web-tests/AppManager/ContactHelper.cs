@@ -43,7 +43,7 @@ namespace WebAddressbookTests
             ContactDetailInformation(index);
             string content = driver.FindElement(By.TagName("div#content")).Text;                      
             
-            return Regex.Replace(content, "[A-Z]: |\r\n| ", "");
+            return content;
         }
 
         public ContactData GetContactInformationFromEditForm(int index)

@@ -53,8 +53,8 @@ namespace WebAddressbookTests
             if (result == 0)
             {
                 result = Firstname.CompareTo(other.Firstname);
-            }                
-                
+            }
+
             return result;
         }
 
@@ -85,19 +85,19 @@ namespace WebAddressbookTests
         public string Notes { get; set; }
         public string Id { get; set; }
 
-        public string AllPhones 
-        { 
-            get 
+        public string AllPhones
+        {
+            get
             {
                 if (allPhones != null)
-                {                    
+                {
                     return Regex.Replace(allPhones, "\r\n", "");
                 }
                 else
                 {
                     return (CleanUp(Home) + CleanUp(Mobile) + CleanUp(Work)).Trim();
                 }
-            } 
+            }
             set
             {
                 allPhones = value;
@@ -127,18 +127,18 @@ namespace WebAddressbookTests
         {
             get
             {
-                if (allInfo != null)
-                {
-                    return Regex.Replace(allInfo, "\r\n", "");
-                }
-                else
-                {
-                    return (Firstname + Lastname + AllPhones + AllEMails).Trim();
-                }
-            }
-            set
-            {
-                allInfo = value;
+                var firstname = Firstname + " ";
+                var lastname = Lastname;
+
+                var homePhone = "\r\n\r\n" + "H: " + Home;
+                var mobilePhone = "\r\n" + "M: " + Mobile;
+                var workPhone = "\r\n" + "W: " + Work;
+
+                var email = "\r\n\r\n" + Email;
+                var email2 = "\r\n" + Email2;
+                var email3 = "\r\n" + Email3;
+
+                return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3);
             }
         }
 
