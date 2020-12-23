@@ -39,7 +39,18 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return (Firstname + Lastname);
+            var firstname = Firstname + " ";
+            var lastname = Lastname;
+
+            var homePhone = CombineIfNotEmpty("\r\n\r\nH: ", Home);
+            var mobilePhone = CombineIfNotEmpty("\r\n\r\nM: ", Mobile);
+            var workPhone = CombineIfNotEmpty("\r\n\r\nW: ", Work);
+
+            var email = "\r\n\r\n" + Email;
+            var email2 = "\r\n" + Email2;
+            var email3 = "\r\n" + Email3;
+
+            return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3).Trim();
         }
 
         public int CompareTo(ContactData other)
@@ -123,24 +134,25 @@ namespace WebAddressbookTests
             }
         }
 
-        public string AllInfo
-        {
-            get
-            {
-                var firstname = Firstname + " ";
-                var lastname = Lastname;
+        // -- experimental property --
+        //public string AllInfo
+        //{
+        //    get
+        //    {
+        //        var firstname = Firstname + " ";
+        //        var lastname = Lastname;
 
-                var homePhone = "\r\n\r\n" + "H: " + Home;
-                var mobilePhone = "\r\n" + "M: " + Mobile;
-                var workPhone = "\r\n" + "W: " + Work;
+        //        var homePhone = CombineIfNotEmpty("\r\n\r\nH: ", Home);
+        //        var mobilePhone = CombineIfNotEmpty("\r\n\r\nM: ", Mobile);
+        //        var workPhone = CombineIfNotEmpty("\r\n\r\nW: ", Work);
+                
+        //        var email = "\r\n\r\n" + Email;
+        //        var email2 = "\r\n" + Email2;
+        //        var email3 = "\r\n" + Email3;
 
-                var email = "\r\n\r\n" + Email;
-                var email2 = "\r\n" + Email2;
-                var email3 = "\r\n" + Email3;
-
-                return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3);
-            }
-        }
+        //        return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3).Trim();
+        //    }
+        //}
 
         private string CleanUp(string data)
         {
@@ -150,6 +162,15 @@ namespace WebAddressbookTests
             }
             return Regex.Replace(data, "[ -()]", "");
         }
+
+        private string CombineIfNotEmpty(string first, string checkValue)
+        {
+            if (checkValue == null || checkValue == "")
+            {
+                return "";
+            }
+            return first + checkValue;
+        }        
 
     }
 }
