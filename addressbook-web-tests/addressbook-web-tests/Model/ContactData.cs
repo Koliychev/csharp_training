@@ -124,35 +124,74 @@ namespace WebAddressbookTests
         }
 
         public string AllInfo
-        { 
+        {
             get
             {
-                if (allInfo != null)
+                allInfo = "";
+
+                if (Firstname != null && Firstname != "")
                 {
-                    return AllInfo;
+                    allInfo += Firstname;
                 }
-                else
+
+                if (allInfo == Firstname && Lastname != null && Lastname != "")
                 {
-                    var firstname = Firstname + " ";
-                    var lastname = Lastname;
+                    allInfo += " ";
+                }
 
-                    var homePhone = CombineIfNotEmpty("\r\n\r\nH: ", Home);
-                    var mobilePhone = CombineIfNotEmpty("\r\n\r\nM: ", Mobile);
-                    var workPhone = CombineIfNotEmpty("\r\n\r\nW: ", Work);
+                if (Lastname != null && Lastname != "")
+                {
+                    allInfo += Lastname;
+                }
 
-                    var email = "\r\n\r\n" + Email;
-                    var email2 = "\r\n" + Email2;
-                    var email3 = "\r\n" + Email3;
+                if (Firstname != null && Firstname != "" || Lastname != null && Lastname != "")
+                {
+                    allInfo += "\r\n\r\n";
+                }
 
-                    return (firstname + lastname + homePhone + mobilePhone + workPhone + email + email2 + email3).Trim();
-                }                
+                if (Home != null && Home != "")
+                {
+                    allInfo += "H: " + Home + "\r\n";
+                }
+
+                if (Mobile != null && Mobile != "")
+                {
+                    allInfo += "M: " + Mobile + "\r\n";
+                }
+
+                if (Work != null && Work != "")
+                {
+                    allInfo += "W: " + Work + "\r\n";
+                }
+
+                if (Home != null && Home != "" || Mobile != null && Mobile != "" || Work != null && Work != "")
+                {
+                    allInfo += "\r\n";
+                }
+
+                if (Email != null && Email != "")
+                {
+                    allInfo += Email + "\r\n";
+                }
+
+                if (Email2 != null && Email2 != "")
+                {
+                    allInfo += Email2 + "\r\n";
+                }
+
+                if (Email3 != null && Email3 != "")
+                {
+                    allInfo += Email3 + "\r\n";
+                }
+
+                return allInfo.Trim();
             }
             set
             {
                 allInfo = value;
             }
         }
-        
+
         private string CleanUp(string data)
         {
             if (data == null || data == "")
@@ -162,14 +201,14 @@ namespace WebAddressbookTests
             return Regex.Replace(data, "[ -()]", "");
         }
 
-        private string CombineIfNotEmpty(string first, string checkValue)
-        {
-            if (checkValue == null || checkValue == "")
-            {
-                return "";
-            }
-            return first + checkValue;
-        }        
+        //private string CombineIfNotEmpty(string first, string checkValue)
+        //{
+        //    if (checkValue == null || checkValue == "")
+        //    {
+        //        return "";
+        //    }
+        //    return first + checkValue;
+        //}
 
     }
 }
