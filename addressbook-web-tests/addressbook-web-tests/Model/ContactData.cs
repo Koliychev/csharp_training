@@ -13,6 +13,10 @@ namespace WebAddressbookTests
         private string allEMails;
         private string allInfo;
 
+        public ContactData()
+        {
+        }
+
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;
@@ -200,15 +204,6 @@ namespace WebAddressbookTests
             }
             return Regex.Replace(data, "[ -()]", "");
         }
-
-        //private string CombineIfNotEmpty(string first, string checkValue)
-        //{
-        //    if (checkValue == null || checkValue == "")
-        //    {
-        //        return "";
-        //    }
-        //    return first + checkValue;
-        //}
 
     }
 }
