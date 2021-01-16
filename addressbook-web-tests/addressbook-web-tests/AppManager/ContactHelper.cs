@@ -85,19 +85,52 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             SelectContact(v);
-            InitContactModification(0);
+            InitContactModification(v);
             FillContactForm(newData);
             SubmitContactModification();
             manager.Navigator.GoToHomePage();
             return this;
         }
-        
+
+        public ContactHelper Modify(ContactData contact, ContactData newData)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(contact.Id);
+            InitContactModification(contact.Id);
+            FillContactForm(newData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
         public ContactHelper Remove(int p)
         {
             manager.Navigator.GoToHomePage();
             SelectContact(p);
             RemoveContact();
             manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(contact.Id);
+            RemoveContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModification(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])"))
+                .FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
 

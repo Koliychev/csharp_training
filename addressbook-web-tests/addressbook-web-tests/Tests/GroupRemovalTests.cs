@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
         
         [Test]
@@ -21,15 +21,15 @@ namespace WebAddressbookTests
                 applicationManager.Groups.Create(new GroupData("Test"));
             }
 
-            List<GroupData> oldGroups = applicationManager.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeRemoved = oldGroups[0];
 
-            applicationManager.Groups.Remove(0);
+            applicationManager.Groups.Remove(toBeRemoved);
 
             Assert.AreEqual(oldGroups.Count - 1, applicationManager.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = applicationManager.Groups.GetGroupList();
-
-            GroupData toBeRemoved = oldGroups[0];
+            List<GroupData> newGroups = GroupData.GetAll();
+                        
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
 

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -79,9 +80,30 @@ namespace WebAddressbookTests
             return groups;
         }
 
-        [Test, TestCaseSource("GroupDataFromExcelFile")]
+        [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {            
+            List<GroupData> oldGroups = GroupData.GetAll();
+
+            applicationManager.Groups.Create(group);
+
+            Assert.AreEqual(oldGroups.Count + 1, applicationManager.Groups.GetGroupCount());
+
+            List<GroupData> newGroups = GroupData.GetAll();
+
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void BadNameGroupCreationTest()
+        {
+            GroupData group = new GroupData("a'a");
+            group.Header = "";
+            group.Footer = "";
+
             List<GroupData> oldGroups = applicationManager.Groups.GetGroupList();
 
             applicationManager.Groups.Create(group);
@@ -89,32 +111,25 @@ namespace WebAddressbookTests
             Assert.AreEqual(oldGroups.Count + 1, applicationManager.Groups.GetGroupCount());
 
             List<GroupData> newGroups = applicationManager.Groups.GetGroupList();
-
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
-        
-        //[Test]
-        //public void BadNameGroupCreationTest()
-        //{
-        //    GroupData group = new GroupData("a'a");
-        //    group.Header = "";
-        //    group.Footer = "";
 
-        //    List<GroupData> oldGroups = applicationManager.Groups.GetGroupList();
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = applicationManager.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine("from UI - " + end.Subtract(start));
 
-        //    applicationManager.Groups.Create(group);
-
-        //    Assert.AreEqual(oldGroups.Count + 1, applicationManager.Groups.GetGroupCount());
-
-        //    List<GroupData> newGroups = applicationManager.Groups.GetGroupList();
-        //    oldGroups.Add(group);
-        //    oldGroups.Sort();
-        //    newGroups.Sort();
-        //    Assert.AreEqual(oldGroups, newGroups);
-        //}
+            start = DateTime.Now;
+            List<GroupData> fromDb = GroupData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine("from DB - " + end.Subtract(start));
+        }
 
     }
 }
