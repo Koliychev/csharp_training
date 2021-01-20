@@ -12,9 +12,22 @@ namespace WebAddressbookTests
         [Test]
         public void TestRemovingContactFromGroup()
         {
-            GroupData group = GroupData.GetAll()[0];
+            var allGroups = GroupData.GetAll();
+            if (!allGroups.Any())
+            {
+                applicationManager.Groups.Create(new GroupData("test"));
+                allGroups = GroupData.GetAll();
+            }
+            GroupData group = allGroups[0];
             List<ContactData> oldList = group.GetContacts();
-            ContactData contact = ContactData.GetAll().Intersect(oldList).First();
+            ContactData contact = oldList.FirstOrDefault();
+            if (contact == null)
+            {
+                applicationManager.Contacts.Create(new ContactData("test", "test"));
+                contact = ContactData.GetAll().Except(oldList).First();
+                applicationManager.Contacts.AddContactToGroup(contact, group);
+                oldList.Add(contact);
+            }
 
             applicationManager.Contacts.RemoveContactFromGroup(contact, group);
 
