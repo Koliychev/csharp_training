@@ -15,6 +15,10 @@ namespace mantis_tests
         protected IWebDriver driver;
         protected string baseURL;
 
+        protected LoginHelper loginHelper;
+        protected ProjectManagementHelper projectManagementHelper;
+        protected ManagementMenuHelper managementMenuHelper;
+
         public RegistrationHelper Registration { get; }
         public FtpHelper Ftp { get; set; }
 
@@ -24,9 +28,13 @@ namespace mantis_tests
         {
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            baseURL = "http://localhost";
+            baseURL = "http://localhost/mantisbt-2.24.4";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
+
+            loginHelper = new LoginHelper(this);
+            projectManagementHelper = new ProjectManagementHelper(this);
+            managementMenuHelper = new ManagementMenuHelper(this, baseURL);
         }
 
         ~ApplicationManager()
@@ -59,6 +67,30 @@ namespace mantis_tests
             {
                 return driver;
             }
-        }       
+        }
+
+        public LoginHelper Auth
+        {
+            get
+            {
+                return loginHelper;
+            }
+        }
+
+        public ProjectManagementHelper Projects
+        {
+            get
+            {
+                return projectManagementHelper;
+            }
+        }
+
+        public ManagementMenuHelper Menu
+        {
+            get
+            {
+                return managementMenuHelper;
+            }
+        }
     }
 }
