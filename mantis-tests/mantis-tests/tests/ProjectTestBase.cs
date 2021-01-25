@@ -7,12 +7,13 @@ using NUnit.Framework;
 
 namespace mantis_tests
 {
-    public class AuthTestBase : TestBase
+    public class ProjectTestBase : AuthTestBase
     {
-        [TestFixtureSetUp]
-        public void SetupLogin()
+        [TestFixtureTearDown]
+
+        public void Logout()
         {
-            app.Auth.Login(new AccountData("administrator", "root"));
+            app.Auth.Logout();
         }
     }
 }

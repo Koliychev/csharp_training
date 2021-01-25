@@ -80,7 +80,7 @@ namespace WebAddressbookTests
             return groups;
         }
 
-        [Test, TestCaseSource("GroupDataFromJsonFile")]
+        [Test, TestCaseSource("RandomGroupDataProvider")]
         public void GroupCreationTest(GroupData group)
         {            
             List<GroupData> oldGroups = GroupData.GetAll();

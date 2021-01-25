@@ -9,14 +9,21 @@ using NUnit.Framework;
 namespace mantis_tests
 {
     [TestFixture]
-    public class ProjectCreationTests : TestBase
+    public class ProjectCreationTests : ProjectTestBase
     {
-        [Test]
-
-        public void ProjectCreationTest()
+        public static IEnumerable<ProjectData> RandomProjectDataProvider()
         {
-            ProjectData project = new ProjectData("project");
+            List<ProjectData> projects = new List<ProjectData>();
+            for (int i = 0; i < 5; i++)
+            {
+                projects.Add(new ProjectData(GenerateRandomString(10)));
+            }
+            return projects;
+        }
 
+        [Test, TestCaseSource("RandomProjectDataProvider")]
+        public void ProjectCreationTest(ProjectData project)
+        {
             List<ProjectData> oldProjects = app.Projects.GetProjectsList();
 
             app.Projects.Create(project);

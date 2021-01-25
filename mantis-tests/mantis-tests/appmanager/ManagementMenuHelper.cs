@@ -40,9 +40,11 @@ namespace mantis_tests
         {
             if (driver.Url == baseURL + "/manage_proj_page.php")
             {
+                driver.FindElement(By.CssSelector("button.btn.btn-primary.btn-white.btn-round")).Click();
                 return;
             }
-            driver.FindElement(By.LinkText("Создать новый проект")).Click();
+            driver.Navigate().GoToUrl(baseURL + "/manage_proj_page.php");
+            driver.FindElement(By.CssSelector("button.btn.btn-primary.btn-white.btn-round")).Click();
         }
     }
 }

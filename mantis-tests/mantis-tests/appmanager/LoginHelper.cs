@@ -28,7 +28,7 @@ namespace mantis_tests
             driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();            
         }
 
-        private void Logout()
+        public void Logout()
         {
             if (IsLoggedIn())
             {
@@ -38,7 +38,7 @@ namespace mantis_tests
             }
         }
 
-        private bool IsLoggedIn()
+        public bool IsLoggedIn()
         {
             return IsElementPresent(By.CssSelector("span.user-info"));
         }

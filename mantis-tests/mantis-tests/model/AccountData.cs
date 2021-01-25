@@ -16,8 +16,28 @@ namespace mantis_tests
             this.name = username;
             this.password = password;
         }
-        public string Name { get; set; }
-        public string Password { get; set; }
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+        public string Password
+        {
+            get
+            {
+                return password;
+            }
+            set
+            {
+                password = value;
+            }
+        }
         public string Email { get; set; }
     }
 }

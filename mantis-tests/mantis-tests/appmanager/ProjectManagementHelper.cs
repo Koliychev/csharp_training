@@ -19,7 +19,7 @@ namespace mantis_tests
         {
             List<ProjectData> projects = new List<ProjectData>();
             manager.Menu.GoToManageProjectPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tbody.tr.td.a"));
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td > a"));
             foreach (IWebElement element in elements)
             {
                 projects.Add(new ProjectData(element.Text));
@@ -28,14 +28,35 @@ namespace mantis_tests
             return projects;
         }
 
-        internal int GetProjectsCount()
+        public ProjectManagementHelper Remove(int p)
+        {
+            manager.Menu.GoToManageProjectPage();
+            SelectProject();
+            RemoveProject();
+            manager.Menu.GoToManageProjectPage();
+            return this;
+        }
+
+        private ProjectManagementHelper RemoveProject()
+        {
+            driver.FindElement(By.CssSelector("input.btn.btn-primary.btn-sm.btn-white.btn-round")).Click();
+            driver.FindElement(By.CssSelector("input.btn.btn-primary.btn-white.btn-round")).Click();
+            return this;
+        }
+
+        private ProjectManagementHelper SelectProject()
+        {
+            driver.FindElement(By.CssSelector("td > a")).Click();
+            return this;
+        }
+
+        public int GetProjectsCount()
         {
             return GetProjectsList().Count;
         }
 
-        internal ProjectManagementHelper Create(ProjectData project)
+        public ProjectManagementHelper Create(ProjectData project)
         {
-            manager.Menu.GoToManageProjectPage();
             manager.Menu.GoToAddProjectPage();
             FillProjectForm(project);
             SubmitProjectCreation();
@@ -43,13 +64,13 @@ namespace mantis_tests
             return this;
         }
 
-        private ProjectManagementHelper SubmitProjectCreation()
+        public ProjectManagementHelper SubmitProjectCreation()
         {
-            driver.FindElement(By.Name("submit")).Click();
+            driver.FindElement(By.CssSelector("input.btn.btn-primary.btn-white.btn-round")).Click();
             return this;
         }
 
-        private ProjectManagementHelper FillProjectForm(ProjectData project)
+        public ProjectManagementHelper FillProjectForm(ProjectData project)
         {
             Type(By.Name("name"), project.Name);
             return this;
