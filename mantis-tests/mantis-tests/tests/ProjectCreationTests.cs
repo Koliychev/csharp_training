@@ -14,7 +14,7 @@ namespace mantis_tests
         public static IEnumerable<ProjectData> RandomProjectDataProvider()
         {
             List<ProjectData> projects = new List<ProjectData>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 projects.Add(new ProjectData(GenerateRandomString(10)));
             }

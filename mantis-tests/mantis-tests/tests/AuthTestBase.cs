@@ -12,7 +12,11 @@ namespace mantis_tests
         [TestFixtureSetUp]
         public void SetupLogin()
         {
-            app.Auth.Login(new AccountData("administrator", "root"));
+            app.Auth.Login(new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            });
         }
     }
 }

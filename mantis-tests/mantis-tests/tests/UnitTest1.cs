@@ -9,7 +9,11 @@ namespace mantis_tests
         [Test]
         public void TestMethod1()
         {
-            AccountData account = new AccountData("xxx", "yyy");
+            AccountData account = new AccountData()
+            {
+                Name = "xxx",
+                Password = "yyy"
+            };
             Assert.IsFalse(app.James.Verify(account));
             app.James.Add(account);
             Assert.IsTrue(app.James.Verify(account));
