@@ -36,5 +36,46 @@ namespace mantis_tests
             newProjects.Sort();
             Assert.AreEqual(oldProjects, newProjects);
         }
+
+        [Test, TestCaseSource("RandomProjectDataProvider")]
+        public void APIProjectCreationTest(ProjectData project)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            
+            AccountData account = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
+            
+            var oldProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+            var oldProjectsData = new List<ProjectData>();
+            foreach (var proj in oldProjects)
+            {
+                oldProjectsData.Add(new ProjectData(proj.name)
+                {
+                    Id = proj.id
+                }); 
+            }
+
+            project.Id = app.API.CreateNewProject(account, project);
+
+            Assert.AreEqual(oldProjects.Count() + 1, client.mc_projects_get_user_accessible(account.Name, account.Password).Count());
+            
+            var newProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+            var newProjectsData = new List<ProjectData>();
+            foreach (var proj in newProjects)
+            {
+                newProjectsData.Add(new ProjectData(proj.name)
+                {
+                    Id = proj.id
+                });
+            }
+
+            oldProjectsData.Add(project);
+            oldProjectsData.Sort();
+            newProjectsData.Sort();
+            Assert.AreEqual(oldProjectsData, newProjectsData);            
+        }
     }
 }

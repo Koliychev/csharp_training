@@ -24,12 +24,12 @@ namespace mantis_tests
 
             IWebDriver driver = OpenAppAndLogin();
             driver.Url = baseUrl + "/manage_user_page.php";
-            IList<IWebElement> rows = driver.FindElements(By.CssSelector("table.tr.td.a"));
+            IList<IWebElement> rows = driver.FindElements(By.CssSelector("td > a"));
             foreach (IWebElement row in rows)
             {
-                IWebElement link = row.FindElement(By.TagName("a"));
-                string name = link.Text;
-                string href = link.GetAttribute("href");
+               // IWebElement link = row.FindElement(By.TagName("a"));
+                string name = row.Text;
+                string href = row.GetAttribute("href");
                 Match m = Regex.Match(href, @"\d+$");
                 string id = m.Value;
 
@@ -53,7 +53,7 @@ namespace mantis_tests
 
         public IWebDriver OpenAppAndLogin()
         {
-            IWebDriver driver = new SimpleBrowserDriver();
+            //IWebDriver driver = new SimpleBrowserDriver();
             driver.Url = baseUrl + "/login_page.php";
             Type(By.Name("username"), "administrator");
             driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
