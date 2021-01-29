@@ -39,16 +39,14 @@ namespace mantis_tests
 
         [Test, TestCaseSource("RandomProjectDataProvider")]
         public void APIProjectCreationTest(ProjectData project)
-        {
-            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
-            
+        {            
             AccountData account = new AccountData()
             {
                 Name = "administrator",
                 Password = "root"
             };
             
-            var oldProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+            var oldProjects = app.API.GetProjectList(account);
             var oldProjectsData = new List<ProjectData>();
             foreach (var proj in oldProjects)
             {
@@ -60,9 +58,9 @@ namespace mantis_tests
 
             project.Id = app.API.CreateNewProject(account, project);
 
-            Assert.AreEqual(oldProjects.Count() + 1, client.mc_projects_get_user_accessible(account.Name, account.Password).Count());
+            Assert.AreEqual(oldProjects.Count() + 1, app.API.GetProjectList(account).Count());
             
-            var newProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+            var newProjects = app.API.GetProjectList(account);
             var newProjectsData = new List<ProjectData>();
             foreach (var proj in newProjects)
             {

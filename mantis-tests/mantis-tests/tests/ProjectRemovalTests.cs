@@ -38,19 +38,17 @@ namespace mantis_tests
         [Test]
         public void APIProjectRemovalTest()
         {
-            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
-
             AccountData account = new AccountData()
             {
                 Name = "administrator",
                 Password = "root"
             };
             
-            var oldProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+            var oldProjects = app.API.GetProjectList(account);
             if (!oldProjects.Any())
             {
                 app.API.CreateNewProject(account, new ProjectData("test"));
-                oldProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+                oldProjects = app.API.GetProjectList(account);
             }
 
             Mantis.ProjectData projectToRemove = oldProjects[0];
@@ -66,9 +64,9 @@ namespace mantis_tests
                 });
             }
 
-            Assert.AreEqual(oldProjects.Count() - 1, client.mc_projects_get_user_accessible(account.Name, account.Password).Count());
+            Assert.AreEqual(oldProjects.Count() - 1, app.API.GetProjectList(account).Count());
 
-            var newProjects = client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
+            var newProjects = app.API.GetProjectList(account);
             var newProjectsData = new List<ProjectData>();
             foreach (var proj in newProjects)
             {

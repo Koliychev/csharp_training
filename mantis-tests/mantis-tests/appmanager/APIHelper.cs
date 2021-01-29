@@ -25,7 +25,7 @@ namespace mantis_tests
             client.mc_issue_add(account.Name, account.Password, issue);
         }
 
-        internal string CreateNewProject(AccountData account, ProjectData project)
+        public string CreateNewProject(AccountData account, ProjectData project)
         {
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
             Mantis.ProjectData projectData = new Mantis.ProjectData();
@@ -33,10 +33,16 @@ namespace mantis_tests
             return client.mc_project_add(account.Name, account.Password, projectData);
         }
 
-        internal void DeleteProject(AccountData account, Mantis.ProjectData projectToRemove)
+        public void DeleteProject(AccountData account, Mantis.ProjectData projectToRemove)
         {
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
             client.mc_project_delete(account.Name, account.Password, projectToRemove.id);
+        }
+
+        public List<Mantis.ProjectData> GetProjectList(AccountData account)
+        {
+            var client = new Mantis.MantisConnectPortTypeClient();
+            return client.mc_projects_get_user_accessible(account.Name, account.Password).ToList();
         }
     }
 }
