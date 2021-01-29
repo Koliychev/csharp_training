@@ -50,10 +50,7 @@ namespace mantis_tests
             var oldProjectsData = new List<ProjectData>();
             foreach (var proj in oldProjects)
             {
-                oldProjectsData.Add(new ProjectData(proj.name)
-                {
-                    Id = proj.id
-                }); 
+                oldProjectsData.Add(new ProjectData(proj.name, proj.id)); 
             }
 
             project.Id = app.API.CreateNewProject(account, project);
@@ -64,10 +61,7 @@ namespace mantis_tests
             var newProjectsData = new List<ProjectData>();
             foreach (var proj in newProjects)
             {
-                newProjectsData.Add(new ProjectData(proj.name)
-                {
-                    Id = proj.id
-                });
+                newProjectsData.Add(new ProjectData(proj.name, proj.id));
             }
 
             oldProjectsData.Add(project);
